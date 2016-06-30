@@ -1,4 +1,4 @@
-### PythonFitting
+# PythonFitting
 In this script I am using different calculations to fit some data to a function.
 These fits are solutions some tasks of the course **Modellierung I** by Prof. Michael Wand
 at the Johannes Gutenberg-University in Mainz. 
@@ -13,16 +13,18 @@ If you want to get to know something about style, please visit
 
 ## The fits
 
-# Linear interpolation between two datapoints
+### Linear interpolation between two datapoints
 
-# Polynomial interpolation
+### Polynomial interpolation
 
-# Linear interpolation with least squares
+### Linear interpolation with least squares
 
-# Polynomial interpolation with least squares
+### Polynomial interpolation with least squares
 
-# Exponential interpolation with least squares
+### Exponential interpolation with least squares
 
-# L1-Norm interpolation 
+### L1-Norm interpolation 
 
-# M-Estimator
+### M-Estimator
+Those are estimators which obtain the minima of sums of functions of the data.
+Least squares estimators are a special case of M-estimators.

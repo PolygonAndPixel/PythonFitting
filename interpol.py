@@ -221,7 +221,7 @@ def L1Norm(data, degree, outline, past):
         weights.append(w)
     if(verbose > 1):
         print weights
-    totalWeight = 999999999.999
+    totalWeight = float("inf")
     lam = []
     itera = 0
     while(not convergence):
@@ -271,9 +271,6 @@ def L1Norm(data, degree, outline, past):
             p = p + lam[i][0]*math.pow(value,i)
         dataY.append(p)
     return dataX, dataY
-
-def MEstimators(data, outline, past):
-    print "not yet implemented"
 
 parser = ArgumentParser(
     description=
@@ -362,8 +359,6 @@ elif(task == 3):
     xOriginal = [i[0] for i in dataWeight]
     yOriginal = [i[1] for i in dataWeight]
     x,y = PolyLeastSquares(dataWeight, 4, outline, past)
-    x2Original = [i[0] for i in dataWeight]
-    y2Original = [i[1] for i in dataWeight]
     x2,y2 = PolyLeastSquares(dataWeight, 5, outline, past)
     figureName = "45Interpol"
     title = "Weight interpolation with degree 4 and 5 (least squares)"
@@ -371,6 +366,9 @@ elif(task == 3):
     xTitle = "Age in years"
     grid = False
     plotOne = False
+    label1 = "Degree: 4"
+    label2 = "Degree: 5"
+    loc = "upper left"
 elif(task == 4):
     print "Task 4: Linear fitting and least squares"
     dataPCPC = []
@@ -496,12 +494,12 @@ elif(task == 7):
         print "Your given degree is too high for this few data. Degree is set to ", degree
     x,y = L1Norm(dataPCPC, degree, outline, past)
     figureName = "L1Norm"
-    title = "PCPC in Germany with outliers and L1-Norm fitting (" + degree + " degrees)"
+    title = "PCPC in Germany with outliers and L1-Norm fitting (" + str(degree) + " degrees)"
     yTitle = "USD"
     xTitle = "Year"
     grid = False
 elif(task == 8):
-    print "Task 8: M-Estimators with ", degree, " degrees"
+    print "Task 8: M-Estimators (simple least squares and L1-Norm) with ", degree, " degrees"
     dataPCPC = []
     f = open(datafile, "r")
     year = True
@@ -528,17 +526,33 @@ elif(task == 8):
                 if(current == 41):
                     value = 210120
                 current = current + 1
-                dataPCPC[len(dataPCPC)-added].append(float(y))
+                dataPCPC[len(dataPCPC)-added].append(value)
                 added = added-1
     f.close()
+    if(verbose > 0):
+        print dataPCPC
     xOriginal = [i[0] for i in dataPCPC]
     yOriginal = [i[1] for i in dataPCPC]
-    x,y = MEstimators(dataPCPC, outline, past)
+    if(degree >= len(xOriginal)):
+        degree = len(xOriginal)-1
+        print "Your given degree is too high for this few data. Degree is set to ", degree
+    if(verbose > 0):
+        print "Starting PolyLeastSquares"
+    x,y = PolyLeastSquares(dataPCPC, degree, outline, past)
+    if(verbose > 0):
+        print "Starting L1Norm"
+    x2,y2 = L1Norm(dataPCPC, degree, outline, past)
+    if(verbose > 0):
+        print "Set variables for plotting"
     figureName = "MEstimator"
-    title = "PCPC in Germany with outliers and M-Estimators"
+    title = "PCPC in Germany with outliers and " + str(degree) + " degrees"
     yTitle = "USD"
     xTitle = "Year"
     grid = False
+    plotOne = False
+    label1 = "Least squares"
+    label2 = "L1-Norm"
+    loc = "upper left"
 else:
     print "Error: No such task: ", task
     print "Use -h for help"
@@ -552,9 +566,13 @@ if(plotOne):
     plt.grid(grid)
     plt.savefig(figureName, dpi=600) 
 else:
-    plt.plot(x, y, 'r', x2, y2, 'b', xOriginal, yOriginal, 'ro', x2Original, y2Original, 'bo')
+    plt.plot(x, y, 'r', label=label1)
+    plt.plot(x2, y2, 'b', label=label2)
+    plt.plot(xOriginal, yOriginal, 'ro')
     plt.xlabel(xTitle)
     plt.ylabel(yTitle)
     plt.title(title)
     plt.grid(grid)
+    plt.legend(loc=loc)
     plt.savefig(figureName, dpi=600) 
+    
