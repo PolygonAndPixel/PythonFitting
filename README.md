@@ -139,3 +139,9 @@ We use *a* as our array of coefficients again. Now we solve the following equati
 
 ![Imgur](http://i.imgur.com/vRbxfN4.jpg)
 
+In this implementation we set the weights to some arbitrary numbers between 0 and
+1 and update the weights in each iteration with:
+
+![Imgur](http://i.imgur.com/9OAPmM6.jpg)
+
+where *t-1* means the new fit at position *x_i* from the iteration before.
