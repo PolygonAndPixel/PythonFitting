@@ -82,13 +82,13 @@ datapoints:
 
 ![Imgur](http://i.imgur.com/aHpROMz.png)
 
-This approach can be easily disturbed by outlayers and leads to fits with an high
+This approach can be easily disturbed by outliers and leads to fits with an high
 degree since the function tries to fit every datapoint.
 
 ### Linear interpolation with least squares
 Least squares allows some error in the fit but it also minimizes the distance between
 the fit and the datapoints. This leads to functions with lower degrees than a 
-simple interpolation and outlayers have a smaller impact. Here we define a linear
+simple interpolation and outliers have a smaller impact. Here we define a linear
 function again and solve for the slope using the average values of *x* and *y*:
 
 ![Imgur](http://i.imgur.com/oSb8GvY.png)
@@ -119,7 +119,7 @@ By taking the logarithm we can solve for *a* and *b* and least squares gives:
 
 ### L1-Norm interpolation 
 L1-Norm interpolation gives weights to the datapoints which reduces the impact
-of outlayers even further. I implemented an iterative approach which redefines 
+of outliers even further. I implemented an iterative approach which redefines 
 the weights until it converges. If you try the code you can use an higher verbosity-level
 to see that rarely more than three iterations are needed. In this approach we
 define again a Vandermonde matrix *X*:
