@@ -32,25 +32,18 @@ to get started. There are different options for most plots:
 
 The different tasks are:
 
-Task 1: Linear interpolation with two datapoints.
-
-Task 2: Polynomial interpolation by solving a Vandermonde matrix with degree 3 on 4 datapoints.
-
-Task 3: Polynomial interpolation with least squares with degree 4 and 5 on 4 datapoints.
-
-Task 4: Linear fitting with least squares on a dataset 'dataPCPC' or any
+* Task 1: Linear interpolation with two datapoints.
+* Task 2: Polynomial interpolation by solving a Vandermonde matrix with degree 3 on 4 datapoints.
+* Task 3: Polynomial interpolation with least squares with degree 4 and 5 on 4 datapoints.
+* Task 4: Linear fitting with least squares on a dataset 'dataPCPC' or any
 other specified with '-f'.
-
-Task 5: Polynomial fitting with least squares on a dataset 'dataPCPC' or any
+* Task 5: Polynomial fitting with least squares on a dataset 'dataPCPC' or any
 other specified with '-f'.
-
-Task 6: Exponential fitting with least squares on a dataset 'dataPCPC' or any
+* Task 6: Exponential fitting with least squares on a dataset 'dataPCPC' or any
 other specified with '-f'.
-
-Task 7: L1-Norm fitting on a dataset 'dataPCPC' or any other specified with '-f'.
+* Task 7: L1-Norm fitting on a dataset 'dataPCPC' or any other specified with '-f'.
 Here some datapoints are exchanged with outliers.
-
-Task 8: M-Estimators approach to fit on a dataset 'dataPCPC' or any other specified with '-f'.
+* Task 8: M-Estimators approach to fit on a dataset 'dataPCPC' or any other specified with '-f'.
 Here some datapoints are exchanged with outliers.
 
 ## The fits
@@ -115,7 +108,7 @@ For an exponential interpolation the data has to fit a function with the form:
 
 By taking the logarithm we can solve for *a* and *b* and least squares gives:
 
-![Imgur](http://i.imgur.com/UDp2T2a.png))
+![Imgur](http://i.imgur.com/UDp2T2a.png)
 
 ### L1-Norm interpolation 
 L1-Norm interpolation gives weights to the datapoints which reduces the impact
@@ -124,7 +117,7 @@ the weights until it converges. If you try the code you can use an higher verbos
 to see that rarely more than three iterations are needed. In this approach we
 define again a Vandermonde matrix *X*:
 
-![Imgur](http://i.imgur.com/AN5z9vb.png)
+![Imgur](http://i.imgur.com/WKJzs2s.jpg)
 
 We also have our array *Y* of *y*-values:
 
