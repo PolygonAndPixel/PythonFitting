@@ -148,6 +148,7 @@ def ExpLeastSquares(data, outline, past):
         dataY.append(p)
     return dataX, dataY
 
+# Matrix matrix multiplication where both can be transposed.
 def mm(A, transposeA, B, transposeB):
     mA = []
     if(transposeA):
@@ -182,6 +183,7 @@ def mm(A, transposeA, B, transposeB):
             C[rowA].append(value)
     return C
 
+# Matrix vector multiplication where the matrix can be transposed.
 def mv(A, transposeA, V):
     mA = []
     if(transposeA):
