@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Pythonfitting : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Pythonfitting</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/PolygonAndPixel/PythonFitting">View on GitHub</a>
+
+          <h1 id="project_title">Pythonfitting</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/PolygonAndPixel/PythonFitting/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/PolygonAndPixel/PythonFitting/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="pythonfitting" class="anchor" href="#pythonfitting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PythonFitting</h1>
+
+<p>In this script I am using different calculations to fit some data to a function.
+These fits are solutions some tasks of the course <strong>Modellierung I</strong> by Prof. Michael Wand
+at the Johannes Gutenberg-University in Mainz. 
+I give no guarantee for correctness, style or efficiency (which is obvious if 
+you look at my matrix-matrix multiplication for instance). However if you want
+to see some basic implementations, feel free to take a look, copy some code and
+play with it.
+If you want to get to know something about style, please visit 
+<a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> or use at least
+<a href="https://www.pylint.org/">pylint</a> which has some nice GUI interfaces like 
+<a href="https://github.com/spyder-ide/spyder">Spyder IDE</a>.
+Do not hesitate to contact me if you find any mistakes or simply open an issue 
+or make a pull request.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Simply type</p>
+
+<p><code>python interpol.py [-t task]</code></p>
+
+<p>to get started. There are different options for most plots:</p>
+
+<table>
+<thead>
+<tr>
+<th>Options</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'-t', '--task'</td>
+<td>type=int, required=True, default=1, choose the task (and therefore the data and fit) to solve.</td>
+</tr>
+<tr>
+<td>'-d', '--degree'</td>
+<td>type=int, required=False, default=3, sets the degree to use for polynomial least square fitting.</td>
+</tr>
+<tr>
+<td>'-f', '--datafile'</td>
+<td>type=str, required=False, default='dataPCPC', the datafile for tasks 4, 5 and 6.</td>
+</tr>
+<tr>
+<td>'-p', '--predict'</td>
+<td>type=int, required=False, default=0, the desired prediction for the dataset. Should be bigger than 0.</td>
+</tr>
+<tr>
+<td>'-past', type=int</td>
+<td>required=False, default=0, the desired look into the past for the dataset. Should be bigger than 0.</td>
+</tr>
+<tr>
+<td>'-v', '--verbose'</td>
+<td>type=int, required=False, default=0, set verbositiy from 0 to 2.</td>
+</tr>
+<tr>
+<td>'-h', '--help'</td>
+<td>Show the help message.</td>
+</tr>
+</tbody>
+</table>
+
+<p>The different tasks are:</p>
+
+<ul>
+<li>Task 1: Linear interpolation with two datapoints.</li>
+<li>Task 2: Polynomial interpolation by solving a Vandermonde matrix with degree 3 on 4 datapoints.</li>
+<li>Task 3: Polynomial interpolation with least squares with degree 4 and 5 on 4 datapoints.</li>
+<li>Task 4: Linear fitting with least squares on a dataset 'dataPCPC' or any
+other specified with '-f'.</li>
+<li>Task 5: Polynomial fitting with least squares on a dataset 'dataPCPC' or any
+other specified with '-f'.</li>
+<li>Task 6: Exponential fitting with least squares on a dataset 'dataPCPC' or any
+other specified with '-f'.</li>
+<li>Task 7: L1-Norm fitting on a dataset 'dataPCPC' or any other specified with '-f'.
+Here some datapoints are exchanged with outliers.</li>
+<li>Task 8: M-Estimators approach to fit on a dataset 'dataPCPC' or any other specified with '-f'.
+Here some datapoints are exchanged with outliers.</li>
+</ul>
+
+<h2>
+<a id="the-fits" class="anchor" href="#the-fits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The fits</h2>
+
+<h3>
+<a id="m-estimator" class="anchor" href="#m-estimator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>M-Estimator</h3>
+
+<p>Those are estimators which obtain the minima of sums of functions of the data.
+Least squares estimators are a special case of M-estimators.
+A good summary of such functions can be found <a href="http://research.microsoft.com/en-us/um/people/zhang/INRIA/Publis/Tutorial-Estim/node24.html">here</a>.</p>
+
+<h3>
+<a id="linear-interpolation-between-two-datapoints" class="anchor" href="#linear-interpolation-between-two-datapoints" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linear interpolation between two datapoints</h3>
+
+<p>Linear interpolation between two points is the easiest you can do. You just
+define a function:</p>
+
+<p><img src="http://i.imgur.com/3UoBvJB.png" alt="Imgur"></p>
+
+<p>Now you insert your two datapoints for <em>x</em> and <em>y</em> and solve the equation system
+for <em>c</em> and <em>m</em>.</p>
+
+<h3>
+<a id="polynomial-interpolation" class="anchor" href="#polynomial-interpolation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Polynomial interpolation</h3>
+
+<p>In a polynomial interpolation we define a polynomial of degree <em>k</em> to fit the 
+dataset. Usually one starts with low degrees and gets higher if the fit is not
+good. High degrees lead to high oscillations of the function which tries to fit
+all the points which is usually not desired. Therefore I restricted the degree
+to the amount of available datapoints in my implementation.
+In order to get the coefficients of the polynomial one has to create a
+Vandermonde matrix of the <em>x</em>-values of the datapoints, multiply it with a vector
+of the unknown coefficients and these should equal the <em>y</em>-values of the 
+datapoints:</p>
+
+<p><img src="http://i.imgur.com/aHpROMz.png" alt="Imgur"></p>
+
+<p>This approach can be easily disturbed by outliers and leads to fits with an high
+degree since the function tries to fit every datapoint.</p>
+
+<h3>
+<a id="linear-interpolation-with-least-squares" class="anchor" href="#linear-interpolation-with-least-squares" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linear interpolation with least squares</h3>
+
+<p>Least squares allows some error in the fit but it also minimizes the distance between
+the fit and the datapoints. This leads to functions with lower degrees than a 
+simple interpolation and outliers have a smaller impact. Here we define a linear
+function again and solve for the slope using the average values of <em>x</em> and <em>y</em>:</p>
+
+<p><img src="http://i.imgur.com/oSb8GvY.png" alt="Imgur"></p>
+
+<p>The intersection with the <em>y</em>-axes can be calculated with:</p>
+
+<p><img src="http://i.imgur.com/9SRLfXA.png" alt="Imgur"></p>
+
+<h3>
+<a id="polynomial-interpolation-with-least" class="anchor" href="#polynomial-interpolation-with-least" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Polynomial interpolation with least</h3>
+
+<p>We define again some kind of polynomial but this time our Vandermonde matrix looks
+a bit different since we try to fit an average curve.
+In this approach we try to solve following equation system:</p>
+
+<p><img src="http://i.imgur.com/Ac8uibi.png" alt="Imgur"></p>
+
+<p>For more details on how to derive this system I recommend <a href="http://mathworld.wolfram.com/LeastSquaresFittingPolynomial.html">mathworld wolfram</a> and <a href="https://neutrium.net/mathematics/least-squares-fitting-of-a-polynomial/">neutrium</a>.</p>
+
+<h3>
+<a id="exponential-interpolation-with-least-squares" class="anchor" href="#exponential-interpolation-with-least-squares" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exponential interpolation with least squares</h3>
+
+<p>This is a short summary of an explanation at <a href="http://mathworld.wolfram.com/LeastSquaresFittingExponential.html">mathworld wolfram</a>.
+For an exponential interpolation the data has to fit a function with the form:</p>
+
+<p><img src="http://i.imgur.com/lJNKmZc.png" alt="Imgur"></p>
+
+<p>By taking the logarithm we can solve for <em>a</em> and <em>b</em> and least squares gives:</p>
+
+<p><img src="http://i.imgur.com/UDp2T2a.png" alt="Imgur"></p>
+
+<h3>
+<a id="l1-norm-interpolation" class="anchor" href="#l1-norm-interpolation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>L1-Norm interpolation</h3>
+
+<p>L1-Norm interpolation gives weights to the datapoints which reduces the impact
+of outliers even further. I implemented an iterative approach which redefines 
+the weights until it converges. If you try the code you can use an higher verbosity-level
+to see that rarely more than three iterations are needed. In this approach we
+define again a Vandermonde matrix <em>X</em>:</p>
+
+<p><img src="http://i.imgur.com/WKJzs2s.jpg" alt="Imgur"></p>
+
+<p>We also have our array <em>Y</em> of <em>y</em>-values:</p>
+
+<p><img src="http://i.imgur.com/KtZyuGA.png" alt="Imgur"></p>
+
+<p>In addition we define a weight matrix <em>W</em> with the weights on the diagonal and 
+the other entries are zeros:</p>
+
+<p><img src="http://i.imgur.com/fM3daZw.png" alt="Imgur"></p>
+
+<p>We use <em>a</em> as our array of coefficients again. Now we solve the following equation:</p>
+
+<p><img src="http://i.imgur.com/vRbxfN4.jpg" alt="Imgur"></p>
+
+<p>In this implementation we set the weights to some arbitrary numbers between 0 and
+1 and update the weights in each iteration with:</p>
+
+<p><img src="http://i.imgur.com/9OAPmM6.jpg" alt="Imgur"></p>
+
+<p>where <em>t-1</em> means the new fit at position <em>x_i</em> from the iteration before.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Pythonfitting maintained by <a href="https://github.com/PolygonAndPixel">PolygonAndPixel</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
