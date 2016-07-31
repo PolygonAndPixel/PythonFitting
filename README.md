@@ -92,7 +92,7 @@ The intersection with the *y*-axes can be calculated with:
 ![Imgur](http://i.imgur.com/9SRLfXA.png)
 
 
-### Polynomial interpolation with least 
+### Polynomial interpolation with least squares
 We define again some kind of polynomial but this time our Vandermonde matrix looks
 a bit different since we try to fit an average curve.
 In this approach we try to solve following equation system:
